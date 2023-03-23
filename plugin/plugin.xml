@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android" id="io-anyline-cordova" version="43.0.0">
+
+    <name>AnylineSDK</name>
+
+    <!--Add Platform specific Files-->
+    <platform name="ios">
+        <hook type="before_plugin_uninstall" src="scripts/ios/before_plugin_uninstall.js" />
+        <hook type="after_plugin_install" src="scripts/ios/after_plugin_install.js" />
+
+        <js-module src="www/anyline.js" name="anyline">
+            <clobbers target="window.Anyline" />
+        </js-module>
+
+        <plugins-plist key="AnylineSDK" string="AnylineSDKPlugin"/>
+        <!-- feature tag in config.xml -->
+        <config-file parent="/widget" target="config.xml">
+            <feature name="AnylineSDK">
+                <param name="ios-package" value="AnylineSDKPlugin"/>
+            </feature>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+            <string>Allow Anyline to access your camera?</string>
+        </config-file>
+
+        <!-- Anyline SDK Cordova Plugin Source for iOS -->
+        <header-file src="src/ios/AnylineSDKPlugin.h"/>
+        <source-file src="src/ios/AnylineSDKPlugin.m"/>
+        <header-file src="src/ios/ALPluginHelper.h"/>
+        <source-file src="src/ios/ALPluginHelper.m"/>
+        <header-file src="src/ios/ALPluginScanViewController.h"/>
+        <source-file src="src/ios/ALPluginScanViewController.m"/>
+        <header-file src="src/ios/ALRoundedView.h"/>
+        <source-file src="src/ios/ALRoundedView.m"/>
+        <header-file src="src/ios/ALCordovaUIConfiguration.h"/>
+        <source-file src="src/ios/ALCordovaUIConfiguration.m"/>
+        <header-file src="src/ios/ALNFCScanViewController.h"/>
+        <source-file src="src/ios/ALNFCScanViewController.m"/>
+
+        <!-- Anyline Framework & Resource Bundle locally -->
+        <!-- <framework custom="true" src="src/ios/anyline_sdk/Anyline.xcframework"/>-->
+        <!-- <resource-file src="src/ios/anyline_sdk/AnylineResources.bundle"/>-->
+
+        <!-- Anyline Framework & Resource Bundle CocoaPods-->
+        <framework src="Anyline" type="podspec" swift-version="4.2" spec="~> 43.0.0"/>
+
+        <!-- <podspec>
+            <config>
+                <source url="https://github.com/Anyline/anyline-ocr-examples-ios.git" />
+                <source url="https://github.com/CocoaPods/Specs.git"/>
+            </config>
+            <pods use-frameworks="true">
+                <pod name="Anyline" type="podspec" spec="~> 17" />
+            </pods>
+        </podspec> -->
+
+
+        <!-- Frameworks/Libs needed by Anyline SDK for iOS -->
+        <framework src="libz.tbd"/>
+        <framework src="libc++.tbd"/>
+        <framework src="AssetsLibrary.framework"/>
+        <framework src="Accelerate.framework"/>
+
+    </platform>
+    <platform name="android">
+
+        <js-module src="www/anyline.js" name="anyline">
+            <clobbers target="window.Anyline" />
+        </js-module>
+
+        <!-- register plugin -->
+        <framework custom="true" src="src/android/build.gradle" type="gradleReference"/>
+
+        <config-file parent="/*" target="config.xml">
+            <feature name="AnylineSDK">
+                <param name="android-package" value="io.anyline.cordova.AnylinePlugin"/>
+                <param name="onload" value="true"/>
+            </feature>
+        </config-file>
+        <!-- add permissions in AndroidManifest.xml file-->
+        <config-file mode="merge" parent="/manifest" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.VIBRATE"/>
+        </config-file>
+        <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
+            <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode"/>
+        </config-file>
+        <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
+            <activity android:name="io.anyline.cordova.ScanActivity" android:theme="@style/AppTheme" />
+        </config-file>
+
+        <!-- add plugin source code -->
+        <source-file src="src/android/io/anyline/cordova/ScanActivity.java" target-dir="src/io/anyline/cordova"/>
+        <source-file src="src/android/io/anyline/cordova/AnylinePlugin.java" target-dir="src/io/anyline/cordova"/>
+        <source-file src="src/android/io/anyline/cordova/ResultReporter.java" target-dir="src/io/anyline/cordova"/>
+        <source-file src="src/android/io/anyline/cordova/Offset.java" target-dir="src/io/anyline/cordova"/>
+        <source-file src="src/android/io/anyline/cordova/RotateButtonConfig.java" target-dir="src/io/anyline/cordova"/>
+
+        <resource-file src="src/android/res/values/anyline_sdk_plugin_strings.xml" target="res/values/anyline_sdk_plugin_strings.xml"/>
+        <resource-file src="src/android/res/values/anyline_sdk_plugin_colors.xml" target="res/values/anyline_sdk_plugin_colors.xml"/>
+        <resource-file src="src/android/res/layout/activity_scan.xml" target="res/layout/activity_scan.xml"/>
+        <resource-file src="src/android/res/values/styles.xml" target="res/values/styles.xml"/>
+        <resource-file src="src/android/res/drawable/right_arrow.png" target="res/drawable/right_arrow.png"/>
+        <resource-file src="src/android/res/drawable/rotate_screen_background.xml" target="res/drawable/rotate_screen_background.png"/>
+        <resource-file src="src/android/res/drawable/rotate_screen_white.png" target="res/drawable/rotate_screen_white.png"/>
+
+    </platform>
+
+</plugin>
