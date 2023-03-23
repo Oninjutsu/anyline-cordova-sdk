@@ -278,10 +278,6 @@ onResult: function (result) {
  * @parameter onFailure: a zero argument callback function that will be called if the user
  * cancels card scanning.
  */
-Anyline.prototype.scan = function(options, onSuccess, onFailure) {
-  cordova.exec(onSuccess, onFailure, "AnylineSDK", "scan", [options.licenseKey, options.config]);
-};
-
 /**
  * Plugin setup boilerplate.
  */
