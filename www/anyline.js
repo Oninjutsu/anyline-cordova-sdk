@@ -12,7 +12,6 @@
  */
 function Anyline() {
 onResult: function (result) {
-    changeLoadingState(false);
     // this is called for every energy scan result
     // the result is a json-object containing the reading, some metadata,
     // and paths to a cropped and a full image.
@@ -29,7 +28,6 @@ onResult: function (result) {
   },
 
   onError: function (error) {
-    changeLoadingState(false);
     // called if an error occurred or the user canceled the scanning
     if (error == "Canceled") {
       // do stuff when user has canceled
@@ -42,10 +40,6 @@ onResult: function (result) {
   },
 
   scan: function (scanMode) {
-    if (localStorage.getItem("hasStartedAnyline") === 'true') {
-      return;
-    }
-    changeLoadingState(false);
     console.log("start scan with mode " + scanMode);
 
     // start the Energy scanning for the given scan mode
