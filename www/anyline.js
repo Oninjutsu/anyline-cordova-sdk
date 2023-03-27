@@ -29,7 +29,6 @@ function Anyline() {
 
 
   function onSuccess (result) {
-    changeLoadingState(false);
     // this is called for every energy scan result
     // the result is a json-object containing the reading, some metadata,
     // and paths to a cropped and a full image.
@@ -110,8 +109,4 @@ function Anyline() {
 };
 
 
-
-/**
- * Plugin setup boilerplate.
- */
 module.exports = new Anyline();
