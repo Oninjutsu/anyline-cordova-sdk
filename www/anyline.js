@@ -28,7 +28,7 @@ function Anyline() {
 
 	var resultText = "";
 
-  onSuccess: function(result) {
+  onResult: function(result) {
     // this is called for every energy scan result
     // the result is a json-object containing the reading, some metadata,
     // and paths to a cropped and a full image.
