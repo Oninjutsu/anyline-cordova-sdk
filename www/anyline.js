@@ -112,6 +112,7 @@ function Anyline() {
 	      "vibrateOnResult": true
 	    },
 	    "cancelOnResult" : true
+	 }
   };
 
 }
