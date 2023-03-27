@@ -4,6 +4,8 @@
  *
  * Copyright (c) 2023 Anyline GmbH
  */
+
+var resultText = "";
 if (anyline === undefined) {
   var anyline = {};
   alert("Didn't initialize");
@@ -11,24 +13,21 @@ if (anyline === undefined) {
 
 anyline.energy = {
   onResult: function (result) {
-    changeLoadingState(false);
     // this is called for every energy scan result
     // the result is a json-object containing the reading, some metadata,
     // and paths to a cropped and a full image.
 
     // for this use case, expect either a result from a meter plugin or an ocr plugin
     // each of which needs to be accessed differently.
-    var resultText = "";
+
     if (result.meterResult) {
       resultText = result.meterResult.value;
     } else if (result.ocrResult) {
       resultText = result.ocrResult.text;
     }    
-    insertScanResult(result, resultText);
   },
 
   onError: function (error) {
-    changeLoadingState(false);
     // called if an error occurred or the user canceled the scanning
     if (error == "Canceled") {
       // do stuff when user has canceled
@@ -41,10 +40,6 @@ anyline.energy = {
   },
 
   scan: function (scanMode) {
-    if (localStorage.getItem("hasStartedAnyline") === 'true') {
-      return;
-    }
-    changeLoadingState(false);
     console.log("start scan with mode " + scanMode);
 
     // start the Energy scanning for the given scan mode
@@ -52,12 +47,13 @@ anyline.energy = {
     // see http://documentation.anyline.io/#anyline-config for config details
     // and http://documentation.anyline.io/#energy for energy-module details
     var config = this.meterConfig;
-    if (scanMode == 'DIAL_METER') {
-      config = this.dialConfig;
-    } else if (scanMode == 'SERIAL_NUMBER') {
-      config = this.serialNumberConfig;
-    }
     cordova.exec(this.onResult, this.onError, "AnylineSDK", "scan", [config]);
+  }
+  getResultText: function(){
+    if(resultText === "")
+      return "No result.";
+    else
+      return resultText;
   },
 
   licenseKey: "ewogICJsaWNlbnNlS2V5VmVyc2lvbiI6ICIzLjAiLAogICJkZWJ1Z1JlcG9ydGluZyI6ICJwaW5nIiwKICAibWFqb3JWZXJzaW9uIjogIjM3IiwKICAic2NvcGUiOiBbCiAgICAiQUxMIgogIF0sCiAgIm1heERheXNOb3RSZXBvcnRlZCI6IDUsCiAgImFkdmFuY2VkQmFyY29kZSI6IHRydWUsCiAgIm11bHRpQmFyY29kZSI6IHRydWUsCiAgInN1cHBvcnRlZEJhcmNvZGVGb3JtYXRzIjogWwogICAgIkFMTCIKICBdLAogICJwbGF0Zm9ybSI6IFsKICAgICJpT1MiLAogICAgIkFuZHJvaWQiCiAgXSwKICAic2hvd1dhdGVybWFyayI6IHRydWUsCiAgInRvbGVyYW5jZURheXMiOiAzMCwKICAidmFsaWQiOiAiMjAyMy0xMi0xMiIsCiAgImlvc0lkZW50aWZpZXIiOiBbCiAgICAiY29tLmFueWxpbmUuZXhhbXBsZXMuY29yZG92YSIKICBdLAogICJhbmRyb2lkSWRlbnRpZmllciI6IFsKICAgICJjb20uYW55bGluZS5leGFtcGxlcy5jb3Jkb3ZhIgogIF0KfQpxUWxkWFVhSVBHaWhUWlVPL3ljSS9rR0UxcXJ5ZEs1cFh4UUJybk81TFZDaExlK1V3N0tGRkNMNnFSNnptUUVMdG1zVkUxZXJORHdYMW5XY3JtdlhKTFd4N2pjc2l3YXc3SUdubCtQRnd1NnpzS3ZjTTNWMk1peFRDZVBodUQrMzFRRTh1ZE84ZTdYS0NGa0lYd3BwOWdTYk03dDBqYitoTWc2S0dPd0dCVElnajIzVzdFZGdRaGlmZ2tOMGYxMHB4SWVZVzFBK21wcjQ1bTA2Ujc2dWZxSXhsc0lnVDhKbjFKV2haczFWOUFwR25zWUU4c3lVcnZuTXQvaTVvWTJ4YUpZdGE4cnJUZ0Rnc1ZHcUhvNjNrWTVQTllyNlRTWnRNcDBJTDFxTlFIakgrR1loQitIZm9hRzBLVXRkcTVsYW5mU2RESEpzV2F4NUtTQ01OdVNOZUE9PQ==",
