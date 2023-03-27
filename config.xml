@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.anyline.examples.cordova" version="43.0.0" ios-CFBundleVersion="3"
+<widget id="com.outsystemsenterprise.tdgdev.OCRNPD" version="43.0.0" ios-CFBundleVersion="3"
     xmlns="http://www.w3.org/ns/widgets"
     xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Anyline Cordova Example</name>
@@ -34,5 +34,6 @@
         - module_tire
         Example: value="module_energy:module_id:module_anyline_ocr"
     -->
+    <preference name="module" value="module_energy"/>
     <preference name="anyline-retain-assets-pattern" value="" />
 </widget>
