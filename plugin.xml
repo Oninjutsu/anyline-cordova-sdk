@@ -87,7 +87,7 @@
             <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode"/>
         </config-file>
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
-            <activity android:name="io.anyline.cordova.ScanActivity" android:theme="@style/AppTheme" />
+            <activity android:name="io.anyline.cordova.ScanActivity"/>
         </config-file>
 
         <!-- add plugin source code -->
