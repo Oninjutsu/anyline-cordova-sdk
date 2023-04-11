@@ -35,7 +35,7 @@
 
         Example: value="module_energy:module_id:module_anyline_ocr"
     -->
-    <preference name="anyline-retain-assets-pattern" value="" />
+    <preference name="anyline-retain-assets-pattern" value="module_anyline_ocr:module_energy" />
 
     <content src="index.html" />
     <access origin="*" />
